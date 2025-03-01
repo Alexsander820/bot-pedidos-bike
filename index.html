@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Itens - Estúdio de Bike</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 90%;
+            width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            color: #333;
+        }
+        label {
+            display: block;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        input[type='checkbox'] {
+            transform: scale(1.5);
+            margin-right: 10px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            font-size: 18px;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Faça seu Pedido</h2>
+        <p id="bike-info"><strong>Bike:</strong> Carregando...</p>
+        <h3>Escolha os itens:</h3>
+        <label><input type="checkbox" value="Água"> Água</label>
+        <label><input type="checkbox" value="Gatorade"> Gatorade</label>
+        <label><input type="checkbox" value="Energético"> Energético</label>
+        <label><input type="checkbox" value="Toalha"> Toalha</label>
+        <button class="btn" onclick="enviarPedido()">Enviar Pedido</button>
+    </div>
+
+    <script>
+        // Captura o número da bike a partir da URL
+        function getBikeNumber() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("bike") || "Desconhecida";
+        }
+        
+        document.getElementById("bike-info").innerHTML = `<strong>Bike:</strong> ${getBikeNumber()}`;
+
+        function enviarPedido() {
+            const bike = getBikeNumber();
+            const itensSelecionados = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
+                                       .map(el => el.value);
+            
+            if (itensSelecionados.length === 0) {
+                alert("Por favor, selecione ao menos um item!");
+                return;
+            }
+
+            fetch("http://localhost:3000/enviar-pedido", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ bike: bike, itens: itensSelecionados })
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error("Erro ao enviar pedido:", error));
+        }
+    </script>
+</body>
+</html>
