@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Itens</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Faça seu Pedido</h2>
+        <p>Escaneie o QR Code ou escolha os itens abaixo:</p>
+        
+        <form id="pedidoForm">
+            <label>Selecione os itens:</label><br>
+            <input type="checkbox" name="itens" value="Água"> Água <br>
+            <input type="checkbox" name="itens" value="Gatorade"> Gatorade <br>
+            <input type="checkbox" name="itens" value="Energético"> Energético <br>
+            <input type="checkbox" name="itens" value="Toalha"> Toalha <br>
+
+            <input type="hidden" id="bikeInput" name="bike" value=""> <!-- O QR Code preencherá isso -->
+            
+            <button type="submit">Enviar Pedido</button>
+        </form>
+
+        <p id="mensagem"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
